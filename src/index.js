@@ -1,38 +1,39 @@
 module.exports = function check(str, bracketsConfig) {
-  const bracketsArr = str.split('')
-  const resultArr = []
-  let result = true
 
-  function searchCurrentConfig(item){
-    bracketsConfig.forEach((elem, index) => {
-      if (elem.toString().indexOf(item) !== -1){
-        return index
+  const bracketsArr = str.split('')
+  const checkArr = []
+
+  function isBracket(str){
+    for (let item of bracketsConfig){
+        if (item.includes(str)){
+          return item
+        } 
       }
       return false
-    })
+    
   }
 
   for (let item of bracketsArr){
-    if (searchCurrentConfig(item) === false){
-      continue
-    }
-    const config = bracketsConfig[searchCurrentConfig(item)]
-    if (config.toString().indexOf(item) === 0){
-      resultArr.push(item)
-    } else {
-      if (config[0] === resultArr[resultArr.length - 1]){
-        resultArr.unshift()
-      } else {
-        result = false
+      const currentConfig = isBracket(item)
+      const prevBracket = checkArr[checkArr.length - 1]
+
+      if (currentConfig !== false){
+
+        if (item === currentConfig[0] && item !== currentConfig[1]){
+          checkArr.push(item)
+        } else if (item === currentConfig[1]){
+          if (prevBracket === currentConfig[0]){
+            checkArr.pop()
+          } else {
+            checkArr.push(item)
+          }
+        }
       }
     }
+  
+  if (checkArr.length === 0){
+    return true
   }
 
-  // bracketsArr.forEach((item) => {
-
-  // })
-  if (resultArr.length > 0){
-    result = false
-  }
-  return result
+  return false
 }

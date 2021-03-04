@@ -8,53 +8,59 @@
   <script>
 
 function check(str, bracketsConfig) {
-  const bracketsArr = str.split('')
-  const resultArr = []
-  let result = true
 
-  function searchCurrentConfig(item){
-    bracketsConfig.forEach((elem, index) => {
-      console.log(elem)
-      if (elem.indexOf(item) !== -1){
-        return elem.indexOf(item)
+  const bracketsArr = str.split('')
+  const checkArr = []
+
+  function isBracket(str){
+    for (let item of bracketsConfig){
+        if (item.includes(str)){
+          return item
+        } 
       }
       return false
-    })
+    
+  }
+
+  function compareBrackets(str){
+
   }
 
   for (let item of bracketsArr){
+      const currentConfig = isBracket(item)
+      const prevBracket = checkArr[checkArr.length - 1]
 
-    if (searchCurrentConfig(item) === false){
-      continue
-    }
+      if (currentConfig !== false){
 
-    const index = searchCurrentConfig(item)
+        if (item === currentConfig[0] && item !== currentConfig[1]){
+          checkArr.push(item)
+        } else if (item === currentConfig[1]){
+          if (prevBracket === currentConfig[0]){
+            checkArr.pop()
+          } else {
+            checkArr.push(item)
+          }
+        }
 
-    const config = bracketsConfig[index]
-    console.log(config)
+        // if (currentConfig[0] !== currentConfig[1] && currentConfig.indexOf(item) === 0){
+        //   checkArr.push(item)
+        // } else if (currentConfig[0] !== currentConfig[1] && currentConfig.indexOf(item) === 1){
+          
+        //   if (currentConfig[1] === prevBracket){
+        //     checkArr.pop()
 
-    if (config.indexOf(item) === 0){
-
-      resultArr.push(item)
-
-    } else {
-
-      if (config[0] === resultArr[resultArr.length - 1]){
-
-        resultArr.unshift()
-
-      } else {
-
-        result = false
-
+        //   }
+        // } else if (currentConfig[0] === currentConfig[1] && item === prevBracket) {
+        //   checkArr.pop()
+        // }
       }
     }
+  
+  if (checkArr.length === 0){
+    return true
   }
 
-  if (resultArr.length > 0){
-    result = false
-  }
-  return result
+  return false
 }
 
 
@@ -68,7 +74,7 @@ const config6 = [['1', '2'], ['3', '4'], ['5', '6'], ['7', '7'], ['8', '8']];
 const config7 = [['(', ')'], ['[', ']'], ['{', '}'], ['|', '|']];
 
 
-console.log(check('()', config1))
+console.log(check('|(|)', config5))
   </script>
 </head>
 <body>
