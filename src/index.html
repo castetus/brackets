@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+
+function check(str, bracketsConfig) {
+  const bracketsArr = str.split('')
+  const resultArr = []
+  let result = true
+
+  function searchCurrentConfig(item){
+    bracketsConfig.forEach((elem, index) => {
+      console.log(elem)
+      if (elem.indexOf(item) !== -1){
+        return elem.indexOf(item)
+      }
+      return false
+    })
+  }
+
+  for (let item of bracketsArr){
+
+    if (searchCurrentConfig(item) === false){
+      continue
+    }
+
+    const index = searchCurrentConfig(item)
+
+    const config = bracketsConfig[index]
+    console.log(config)
+
+    if (config.indexOf(item) === 0){
+
+      resultArr.push(item)
+
+    } else {
+
+      if (config[0] === resultArr[resultArr.length - 1]){
+
+        resultArr.unshift()
+
+      } else {
+
+        result = false
+
+      }
+    }
+  }
+
+  if (resultArr.length > 0){
+    result = false
+  }
+  return result
+}
+
+
+
+const config1 = [['(', ')']];
+const config2 = [['(', ')'], ['[', ']']];
+const config3 = [['(', ')'], ['[', ']'], ['{', '}']];
+const config4 = [['|', '|']];
+const config5 = [['(', ')'], ['|', '|']];
+const config6 = [['1', '2'], ['3', '4'], ['5', '6'], ['7', '7'], ['8', '8']];
+const config7 = [['(', ')'], ['[', ']'], ['{', '}'], ['|', '|']];
+
+
+console.log(check('()', config1))
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
